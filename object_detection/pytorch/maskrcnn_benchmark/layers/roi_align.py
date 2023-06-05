@@ -30,9 +30,9 @@ class _ROIAlign(Function):
         ctx.sampling_ratio = sampling_ratio
         ctx.input_shape = input.size()
         output = _C.roi_align_forward(
-            input, roi, spatial_scale, output_size[0], output_size[1], sampling_ratio
+            input.cpu(), roi.cpu(), spatial_scale, output_size[0], output_size[1], sampling_ratio
         )
-        return output
+        return output.to(input.device)
 
     @staticmethod
     @once_differentiable

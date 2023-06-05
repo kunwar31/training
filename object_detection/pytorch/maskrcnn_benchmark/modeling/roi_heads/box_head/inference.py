@@ -67,7 +67,6 @@ class PostProcessor(nn.Module):
         """
         class_logits, box_regression = x
         class_prob = F.softmax(class_logits, -1)
-
         # TODO think about a representation of batch of boxes
         image_shapes = [box.size for box in boxes]
         boxes_per_image = [len(box) for box in boxes]
@@ -82,10 +81,8 @@ class PostProcessor(nn.Module):
             proposals = proposals.repeat(1, class_prob.shape[1])
 
         num_classes = class_prob.shape[1]
-
         proposals = proposals.split(boxes_per_image, dim=0)
         class_prob = class_prob.split(boxes_per_image, dim=0)
-
         results = []
         for prob, boxes_per_img, image_shape in zip(
             class_prob, proposals, image_shapes

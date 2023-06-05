@@ -75,7 +75,8 @@ class FPN(nn.Module):
             # inner_top_down = F.upsample(last_inner, size=inner_lateral.shape[-2:],
             # mode='bilinear', align_corners=False)
             last_inner = inner_lateral + inner_top_down
-            results.insert(0, getattr(self, layer_block)(last_inner))
+            layer_result = getattr(self, layer_block)(last_inner)
+            results.insert(0, layer_result)
 
         if isinstance(self.top_blocks, LastLevelP6P7):
             last_results = self.top_blocks(x[-1], results[-1])
